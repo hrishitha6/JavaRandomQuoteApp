@@ -1,7 +1,10 @@
 package com.yourname.quotes;
 
-import java.util.List;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class QuoteProvider {
@@ -9,12 +12,24 @@ public class QuoteProvider {
     private final Random random = new Random();
 
     public QuoteProvider() {
-        quotes.add("Be yourself; everyone else is already taken.");
-        quotes.add("Life is what happens when you're busy making other plans.");
-        quotes.add("I have not failed. I've just found 10,000 ways that won't work.");
+        loadQuotes("/quotes.txt");
+    }
+
+    private void loadQuotes(String resourcePath) {
+        try (InputStream is = getClass().getResourceAsStream(resourcePath);
+             BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                line = line.trim();
+                if (!line.isEmpty()) quotes.add(line);
+            }
+        } catch (Exception e) {
+            System.err.println("Could not load quotes: " + e.getMessage());
+        }
     }
 
     public String getRandomQuote() {
+        if (quotes.isEmpty()) return "No quotes available.";
         return quotes.get(random.nextInt(quotes.size()));
     }
 }
