@@ -14,5 +14,5 @@ Includes both a command-line version and a Swing GUI demo.
 3. Run `App.java` for CLI or `GuiApp.java` for GUI
 
 ## Author
-Your Name
+Hrishitha Vikranth
 
